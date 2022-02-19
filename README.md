@@ -18,3 +18,14 @@ This will start the server on the address [127.0.0.1:8000](http://127.0.0.1:8000
 
 To view the app go to [127.0.0.1:8000/transit](http://127.0.0.1:8000/transit).
 
+## Launching the virtual environnment
+
+On microsoft
+```bash
+PATH\CHUT>CHUT.venv\Scripts\activate
+```
+
+On linux
+```bash
+PATH/CHUT>source CHUT.venv/bin/activate
+```
