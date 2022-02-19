@@ -27,7 +27,12 @@ PATH\CHUT>CHUT.venv\Scripts\activate
 
 On linux
 ```bash
-PATH/CHUT>source CHUT.venv/bin/activate
+bash -c "source .venv/bin/activate"
+```
+
+Install packages:
+```bash
+python3 -m pip install -r .venv/requirements.txt
 ```
 
 # TODO

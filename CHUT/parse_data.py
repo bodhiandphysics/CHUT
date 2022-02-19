@@ -34,4 +34,7 @@ path = DATA_DIR/'CT_GTFS.zip'
 feed = gk.read_feed(path, dist_units='km')
 feed.describe()
 feed.validate()
-print(feed.trips.to_csv(index=False))
+# with pd.option_context('display.max_rows', None, 'display.max_columns', None):  # more options can be specified also
+# print(feed.trips.to_string())
+dates = ["20220219"]
+print(gk.build_stop_timetable(feed, "6816", dates))
