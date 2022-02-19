@@ -36,6 +36,8 @@ def schedule_from_json(json_file):
 		
 		print(error)
 
+
+#use this function to get the next arrival times.... you'll have to have the data somewhere
 def get_next_arrival_times(data, line, current_time, number_of_arrivals):
 
 	returnlist = []
