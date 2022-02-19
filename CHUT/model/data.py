@@ -1,6 +1,7 @@
 import json
+import socket
 
-
+SERVER_ADDRESS = 0
 class ArrivalData:
 
 	def __init__(self, item_dict):
@@ -17,10 +18,9 @@ class ArrivalData:
 		return f"the {self.line} line train will arrive at {self.station} station at {str(self.hour)}:{str(self.minute)}"
 
 
-
 def schedule_from_json(json_file):
 
-	sched_list = json.loads(json_file)
+	sched_list = json.load(json_file)
 
 	returndat = []
 
@@ -38,9 +38,17 @@ def schedule_from_json(json_file):
 
 
 #use this function to get the next arrival times.... you'll have to have the data somewhere
-def get_next_arrival_times(data, line, current_time, number_of_arrivals):
+def get_next_arrival_times(line, current_time, number_of_arrivals):
 
 	returnlist = []
+
+	connection= socket.create_connection(SERVER_ADDRESS)
+	request_str = str.encode(line)
+	reply_size = int(repr(connection.recv(1024)))
+	json_data = connection.recv(reply_size)
+
+
+	data = schedule_from_json(json_data)
 
 	for item in data:
 
