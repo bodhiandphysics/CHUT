@@ -27,7 +27,7 @@ PATH\CHUT>CHUT.venv\Scripts\activate
 
 On linux
 ```bash
-PATH/CHUT>source CHUT.venv/bin/activate
+PATH/CHUT>source CHUT.venv/Scripts/activate
 ```
 
 # TODO
