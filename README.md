@@ -6,7 +6,7 @@ The backend is done with django. To run the webserver change directory into `CHU
 ```bash
 python manage.py runserver
 ```
-This will start the server on the address [127.0.0.1:8000](https://127.0.0.1:8000).
+This will start the server on the address [127.0.0.1:8000](http://127.0.0.1:8000).
 
 
 
