@@ -36,5 +36,9 @@ feed.describe()
 feed.validate()
 # with pd.option_context('display.max_rows', None, 'display.max_columns', None):  # more options can be specified also
 # print(feed.trips.to_string())
+
 dates = ["20220219"]
-print(gk.build_stop_timetable(feed, "6816", dates))
+df = gk.build_stop_timetable(feed, "6816", dates)
+json = df.apply(lambda x: x.to_json(), axis=0)
+
+print(json.to_string())
