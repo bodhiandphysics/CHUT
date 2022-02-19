@@ -36,13 +36,13 @@ def schedule_from_json(json_file):
 		
 		print(error)
 
-def get_next_arrival_times(data, current_time, number_of_arrivals):
+def get_next_arrival_times(data, line, current_time, number_of_arrivals):
 
 	returnlist = []
 
 	for item in data:
 
-		if item.time > current_time and len(returnlist) < number_of_arrivals:
+		if item.line == line and item.time > current_time and len(returnlist) < number_of_arrivals:
 
 			returnlist.append(item)
 
