@@ -35,10 +35,10 @@ PATH/CHUT>source CHUT.venv/bin/activate
 - [x] Get Repo set up
 - [x] Start django project and server
 - [x] Setup python virtual environment
-- [] Build UI
-- [] Parse Data
-- [] Display information on site
-- [] Integrate into Pi
+- [ ] Build UI
+- [ ] Parse Data
+- [ ] Display information on site
+- [ ] Integrate into Pi
 
 
 
