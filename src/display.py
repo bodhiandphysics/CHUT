@@ -35,14 +35,11 @@ def display(w,data):
         w.addstr(i+1,x//2-(LENGTH//2),data[i].line,curses.color_pair((i+1)%2))
         w.addstr(i+1,x-LENGTH,timestr,curses.color_pair((i+1)%2))
 
-
-a = ArrivalData({"station":"Univeristy Station","line":"69th Street","hour":20,"minute":30})
-b = ArrivalData({"station":"University Station","line":"Tuscany","hour":20,"minute":55,"second":20})
-
-
-def fancy(w):
-
-
+def launch(data):
+    w = curses.initscr()
+    curses.noecho()
+    curses.cbreak()
+    w.keypad(True)
     curses.start_color()
     curses.init_pair(1,curses.COLOR_WHITE,curses.COLOR_YELLOW)
     curses.init_pair(2,curses.COLOR_WHITE,curses.COLOR_YELLOW)
@@ -51,11 +48,10 @@ def fancy(w):
 
     while(True):
         w.clear()
-        display(w,[a,b])
+        display(w,data)
         w.refresh()
-        curses.napms(5000)
+        curses.napms(60000)
 
+    curses.endwin()
 
-curses.wrapper(fancy)
-
-
+launch([])
