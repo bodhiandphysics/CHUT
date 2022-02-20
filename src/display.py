@@ -37,7 +37,7 @@ def display(w,data):
 
         w.addstr(i+1,0," "*x,curses.color_pair((i+1)%2))
          
-        w.addstr(i+1,0,obj.station,curses.color_pair((i+1)%2))
+        w.addstr(i+1,0,obj.station.replace("CTrain Station"," "),curses.color_pair((i+1)%2))
         w.addstr(i+1,x//2-(LENGTH//2),obj.line,curses.color_pair((i+1)%2))
         w.addstr(i+1,x-LENGTH,timestr,curses.color_pair((i+1)%2))
 
