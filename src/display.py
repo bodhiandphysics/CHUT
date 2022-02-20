@@ -5,29 +5,35 @@ import time
 import curses
 
 
-LENGTH = 25
+LENGTH = 10
 
-def display(data):
+def display(w,data):
 
-    toReturn = ("Station" + (" " * (LENGTH - 7)) + "Line" + (" "*(LENGTH - 4)) + "Time") + "\n"
+    y,x = w.getmaxyx()
+    w.attron(curses.A_BOLD | curses.A_UNDERLINE)
+    w.addstr(0,0,"Station")
+    w.addstr(0,x//2-(LENGTH//2),"Line")
+    w.addstr(0,x-LENGTH,"Time\n")
+    w.attroff(curses.A_BOLD | curses.A_UNDERLINE)
 
     now = datetime.now()
 
-    for i in data:
+    for i in range(len(data)):
 
 
-        timeh = (i.time // 60) - now.hour
-        timem = (i.minute % 60) - now.minute
+        timeh = (data[i].time // 60) - now.hour
+        timem = (data[i].minute % 60) - now.minute
         if (timem < 0):
             timeh -= 1
             timem = 60 + timem
 
         timestr = str(timeh).zfill(2) + ":" + str(timem).zfill(2)
 
-
-        toReturn += (i.station + (" " * (LENGTH-len(i.station))) + i.line + (" " * (LENGTH-len(i.line))) + timestr) + "\n"
-
-    return toReturn
+        w.addstr(i+1,0," "*x,curses.color_pair((i+1)%2))
+         
+        w.addstr(i+1,0,data[i].station,curses.color_pair((i+1)%2))
+        w.addstr(i+1,x//2-(LENGTH//2),data[i].line,curses.color_pair((i+1)%2))
+        w.addstr(i+1,x-LENGTH,timestr,curses.color_pair((i+1)%2))
 
 
 a = ArrivalData({"station":"Univeristy Station","line":"69th Street","hour":20,"minute":30})
@@ -35,11 +41,19 @@ b = ArrivalData({"station":"University Station","line":"Tuscany","hour":20,"minu
 
 
 def fancy(w):
+
+
+    curses.start_color()
+    curses.init_pair(1,curses.COLOR_WHITE,curses.COLOR_YELLOW)
+    curses.init_pair(2,curses.COLOR_WHITE,curses.COLOR_YELLOW)
+
+    curses.curs_set(0)
+
     while(True):
         w.clear()
-        w.addstr(display([a,b]))
+        display(w,[a,b])
         w.refresh()
-        time.sleep(5)
+        curses.napms(5000)
 
 
 curses.wrapper(fancy)
