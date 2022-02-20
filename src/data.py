@@ -53,9 +53,8 @@ def get_next_arrival_times(station, current_time, number_of_arrivals):
 
 	for item in data:
 
-		if item.time > current_time and len(returnlist) < number_of_arrivals
-
-			returnlist.append(item)
+            if item.time > current_time and len(returnlist) < number_of_arrivals:
+                returnlist.append(item)
 
 	return returnlist
 
