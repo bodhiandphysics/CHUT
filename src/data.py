@@ -20,7 +20,6 @@ class ArrivalData:
 
 def schedule_from_json(json_string):
 
-	print(json_string[0:200])
 	sched_list = json.loads(json_string)
 	returndat = []
 
@@ -44,13 +43,7 @@ def get_next_arrival_times(station, current_time, number_of_arrivals):
 	connection = socket.create_connection((SERVER_ADDRESS,PORT))
 	request_str = str.encode(station)
 	connection.send(request_str)
-	dbg = connection.recv(16)
-	print(dbg)
-	rep = repr(dbg)
-	print(rep)
-	print(int(dbg))
-	reply_size = int(dbg)
-	print(reply_size)
+	reply_size = int(connection.recv(16))
 	num_rcved = 0
 	while num_rcved < reply_size:
 		json_datab = connection.recv(reply_size)
