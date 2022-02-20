@@ -1,0 +1,13 @@
+/home/aaron/Documents/Repos/CHUT/socket/target/debug/deps/quote-0241397e45631a95.rmeta: /home/aaron/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.15/src/lib.rs /home/aaron/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.15/src/ext.rs /home/aaron/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.15/src/format.rs /home/aaron/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.15/src/ident_fragment.rs /home/aaron/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.15/src/to_tokens.rs /home/aaron/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.15/src/runtime.rs /home/aaron/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.15/src/spanned.rs
+
+/home/aaron/Documents/Repos/CHUT/socket/target/debug/deps/libquote-0241397e45631a95.rlib: /home/aaron/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.15/src/lib.rs /home/aaron/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.15/src/ext.rs /home/aaron/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.15/src/format.rs /home/aaron/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.15/src/ident_fragment.rs /home/aaron/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.15/src/to_tokens.rs /home/aaron/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.15/src/runtime.rs /home/aaron/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.15/src/spanned.rs
+
+/home/aaron/Documents/Repos/CHUT/socket/target/debug/deps/quote-0241397e45631a95.d: /home/aaron/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.15/src/lib.rs /home/aaron/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.15/src/ext.rs /home/aaron/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.15/src/format.rs /home/aaron/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.15/src/ident_fragment.rs /home/aaron/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.15/src/to_tokens.rs /home/aaron/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.15/src/runtime.rs /home/aaron/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.15/src/spanned.rs
+
+/home/aaron/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.15/src/lib.rs:
+/home/aaron/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.15/src/ext.rs:
+/home/aaron/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.15/src/format.rs:
+/home/aaron/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.15/src/ident_fragment.rs:
+/home/aaron/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.15/src/to_tokens.rs:
+/home/aaron/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.15/src/runtime.rs:
+/home/aaron/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.15/src/spanned.rs:

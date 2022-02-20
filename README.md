@@ -27,9 +27,19 @@ PATH\CHUT>CHUT.venv\Scripts\activate
 
 On linux
 ```bash
-PATH/CHUT>source CHUT.venv/Scripts/activate
+bash -c "source .venv/bin/activate"
 ```
 
+Install packages:
+```bash
+python3 -m pip install -r .venv/requirements.txt
+```
+
+
+Json Format
+
+[{"station": "university", "line": "red", "hour": "11", "minute": "32", "second": "12"},
+					 {"station": "university", "line": "red", "hour": "12", "minute": "32", "second": "12"}]]
 # TODO
 
 - [x] Get Repo set up
