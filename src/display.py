@@ -4,6 +4,8 @@ from datetime import datetime
 import os
 import time
 import curses
+import signal
+import sys
 
 PATH = "../data/sched"
 LENGTH = 10
@@ -37,7 +39,11 @@ def display(w,data):
         w.addstr(i+1,x//2-(LENGTH//2),obj.line,curses.color_pair((i+1)%2))
         w.addstr(i+1,x-LENGTH,timestr,curses.color_pair((i+1)%2))
 
-def launch(data):
+def signal_handler(sig, frame):
+    curses.endwin()
+    sys.exit(0)
+
+def launch():
     w = curses.initscr()
     curses.noecho()
     curses.cbreak()
@@ -46,15 +52,9 @@ def launch(data):
     curses.init_pair(1,curses.COLOR_WHITE,curses.COLOR_YELLOW)
     curses.init_pair(2,curses.COLOR_WHITE,curses.COLOR_YELLOW)
 
-    curses.curs_set(0)
+    return w
 
-    while(True):
-        w.clear()
-        display(w,data)
-        w.refresh()
-        curses.napms(60000)
 
-    curses.endwin()
 
 def main():
     names = [
@@ -67,12 +67,30 @@ def main():
         for file in os.listdir(PATH)
     ]
     '''
-    data = [
-        obj
-        for name in names
-        for obj in get_next_arrival_times(name,datetime.now(), 5)
-    ]
-    launch(data)
+
+    w = launch()
+    
+    while True:
+        data = [
+            obj
+            for name in names
+            for obj in get_next_arrival_times(name,datetime.now(), 5)
+        ]
+
+        signal.signal(signal.SIGINT, signal_handler)
+
+        curses.curs_set(0)
+    
+        w.clear()
+        display(w,data)
+        w.refresh()
+        curses.napms(1000)
+        if w.getch == 3:
+            raise KeyboardInterrupt
+
+  
+
+       
 
 if __name__ == '__main__':
     main()
