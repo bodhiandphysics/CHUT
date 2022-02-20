@@ -1,7 +1,7 @@
 import json
 import socket
 
-SERVER_ADDRESS = 127.0.0.1:8080
+SERVER_ADDRESS = "127.0.0.1:8080"
 class ArrivalData:
 
 	def __init__(self, item_dict):
