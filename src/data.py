@@ -1,7 +1,8 @@
 import json
 import socket
 
-SERVER_ADDRESS,PORT = "20.127.111.209",8080
+SERVER_ADDRESS,PORT = "127.0.0.1",8080
+# SERVER_ADDRESS,PORT = "20.127.111.209",8080
 class ArrivalData:
 
 	def __init__(self, item_dict):
@@ -19,8 +20,8 @@ class ArrivalData:
 
 
 
-def schedule_from_json(returndat, json_string):
-
+def schedule_from_json(json_string):
+	print(repr(json_string))
 	sched_item = json.loads(json_string)
 	try: 
 
@@ -41,27 +42,30 @@ def get_next_arrival_times(station, current_time, number_of_arrivals):
 	num_rcved = 0
 	while num_rcved < 16:
 		num_records_rcved = connection.recv(16 - num_rcved)
-		num_rcved += len(size_rcved)
-	num_records = int(rum_records_recved)
+		print(num_records_rcved)
+		num_rcved += len(num_records_rcved)
+	num_records = int(num_records_rcved)
 	current_record = 0
 	while current_record < num_records:
 
 		num_rcved = 0
 		while num_rcved < 16:
 			size_rcved = connection.recv(16 - num_rcved)
+			print(size_rcved)
 			num_rcved += len(size_rcved)
 		reply_size = int(size_rcved)
 		num_rcved = 0
 		json_datab = bytes("", "ascii")
 		while num_rcved < reply_size:
 			json_datab += connection.recv(reply_size - num_rcved)
-			num_rcved += len(json_data)
-			if not json_data:
+			num_rcved += len(json_datab)
+			if not json_datab:
 				break
 		json_data = json_datab.decode("ascii")
 		item = schedule_from_json(json_data)
 		if item.time > current_time and len(returnlist) < number_of_arrivals:
 			 returnlist.append(item)
+		current_record += 1
 
 	connection.close()              
 

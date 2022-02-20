@@ -1,43 +1,76 @@
-use std::ffi::CString;
+use serde::{Deserialize, Serialize};
 use std::fs::File;
-use std::io::{BufReader, Read};
-use tokio::net::{TcpListener, TcpStream};
+use std::io::{BufReader, BufWriter, Write};
+use tokio::{
+    net::{TcpListener, TcpStream},
+    task,
+};
 
-const ADDR: &'static str = "20.127.111.209:8080";
+const ADDR: &'static str = "127.0.0.1:8080";
+// const ADDR: &'static str = "20.127.111.209:8080";
 const DIR: &'static str = "../../data/sched";
+
+#[derive(Serialize, Deserialize, Debug)]
+struct Times {
+    year: usize,
+    month: String,
+    day: String,
+    hour: String,
+    minute: String,
+    direction: String,
+    line: String,
+    station: String,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(transparent)]
+struct Station {
+    times: Vec<Times>,
+}
 
 #[tokio::main]
 async fn main() -> Result<(), futures::io::Error> {
-    let mut buf = [0; 1024];
     let listener = TcpListener::bind(&ADDR).await?;
     loop {
-        let (stream, _) = listener.accept().await.unwrap();
-        stream.readable().await?;
-        let (bytes, string) = process(&stream, &mut buf).await?;
-        stream.writable().await?;
-        stream.try_write(
-            &buff_from_usize(bytes)
-                .iter()
-                .chain(string.as_bytes_with_nul())
-                .map(|b| *b)
-                .collect::<Vec<_>>()[..],
-        )?;
-        buf = [0; 1024];
+        let (stream, addy) = listener.accept().await?;
+        if let Err(e) = task::spawn(async move { handle(stream).await.unwrap() }).await {
+            println!("Connection failed with client at {addy}.\nReason: {e}");
+        }
     }
 }
 
-async fn process(
-    stream: &TcpStream,
-    buf: &mut [u8; 1024],
-) -> Result<(usize, CString), std::io::Error> {
+async fn handle(stream: TcpStream) -> Result<(), futures::io::Error> {
+    let mut buf = [0; 1024];
+    stream.readable().await?;
+    let times = process(&stream, &mut buf).await?.times;
+    dbg!(&times);
+    stream.writable().await?;
+    send(times, stream).await
+}
+
+async fn send(times: Vec<Times>, stream: TcpStream) -> Result<(), futures::io::Error> {
+    let mut writer = BufWriter::new(Vec::new());
+    writer.write(&buff_from_usize(times.len())[..])?;
+    dbg!(times.len(), &writer);
+    stream.try_write(writer.buffer())?;
+    writer.flush()?;
+    for time in times {
+        dbg!(&writer);
+        let json = serde_json::to_vec(&time)?;
+        dbg!(json.len(), &json);
+        writer.write(&buff_from_usize(json.len())[..])?;
+        writer.write(&json[..])?;
+        stream.try_write(writer.buffer())?;
+        writer.flush()?;
+    }
+    Ok(())
+}
+
+async fn process(stream: &TcpStream, buf: &mut [u8; 1024]) -> Result<Station, std::io::Error> {
     let n = stream.try_read(buf)?;
     let name = unsafe { std::str::from_utf8_unchecked(&buf[..n]) };
     let file = File::open(format!("{}/{}.json", DIR, name))?;
-    let mut reader = BufReader::new(file);
-    let mut string_buff = Vec::new();
-    let bytes = reader.read_to_end(&mut string_buff)?;
-    let cstring = CString::new(string_buff)?;
-    Ok((bytes, cstring))
+    Ok(dbg!(serde_json::from_reader(dbg!(BufReader::new(file))))?)
 }
 
 fn buff_from_usize(bytes: usize) -> [u8; 16] {
