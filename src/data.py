@@ -49,7 +49,7 @@ def get_next_arrival_times(station, current_time, number_of_arrivals):
 		json_datab = connection.recv(reply_size)
 		num_rcved += len(json_datab)
 		if not json_datab:
-	num_rcved = 0
+			num_rcved = 0
 	while num_rcved < 16:
 		size_rcved = connection.recv(16 - num_rcved)
 		num_rcved += len(size_rcved)
