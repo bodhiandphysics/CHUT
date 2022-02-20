@@ -60,6 +60,9 @@ def get_next_arrival_times(station, current_time, number_of_arrivals):
 	return returnlist
 
 
+def get_next_train_times(station, train)
+
+
 def test():
 
 	json_data = """ [{"station": "university", "line": "red", "hour": "11", "minute": "32", "second": "12"},
