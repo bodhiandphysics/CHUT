@@ -7,7 +7,7 @@ use tokio::{
 };
 
 // const ADDR: &'static str = "127.0.0.1:8080";
-const ADDR: &'static str = "20.127.111.209:8080";
+const ADDR: &'static str = "10.0.0.4:8080";
 const DIR: &'static str = "../../data/sched";
 
 #[derive(Serialize, Deserialize, Debug)]
