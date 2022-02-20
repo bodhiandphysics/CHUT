@@ -1,10 +1,11 @@
 from data import ArrivalData
+from data import get_next_arrival_times
 from datetime import datetime
 import os
 import time
 import curses
 
-
+PATH = "../data/sched"
 LENGTH = 10
 
 def display(w,data):
@@ -18,21 +19,22 @@ def display(w,data):
 
     now = datetime.now()
 
-    for i in range(len(data)):
+    for i,obj in enumerate(data):
+        if i+2 > y:
+            break
 
-
-        timeh = (data[i].time // 60) - now.hour
-        timem = (data[i].minute % 60) - now.minute
+        timeh = (obj.time // 60) - now.hour
+        timem = (obj.minute % 60) - now.minute
         if (timem < 0):
             timeh -= 1
             timem = 60 + timem
 
-        timestr = str(timeh).zfill(2) + ":" + str(timem).zfill(2)
+        timestr = f"{str(timeh).zfill(2)}:{str(timem).zfill(2)}"
 
         w.addstr(i+1,0," "*x,curses.color_pair((i+1)%2))
          
-        w.addstr(i+1,0,data[i].station,curses.color_pair((i+1)%2))
-        w.addstr(i+1,x//2-(LENGTH//2),data[i].line,curses.color_pair((i+1)%2))
+        w.addstr(i+1,0,obj.station,curses.color_pair((i+1)%2))
+        w.addstr(i+1,x//2-(LENGTH//2),obj.line,curses.color_pair((i+1)%2))
         w.addstr(i+1,x-LENGTH,timestr,curses.color_pair((i+1)%2))
 
 def launch(data):
@@ -54,4 +56,23 @@ def launch(data):
 
     curses.endwin()
 
-launch([])
+def main():
+    names = [
+        'nb_university_ctrain_station',
+        'sb_university_ctrain_station'
+    ]
+    '''
+    names = [
+        file[:-5]
+        for file in os.listdir(PATH)
+    ]
+    '''
+    data = [
+        obj
+        for name in names
+        for obj in get_next_arrival_times(name,0,5)
+    ]
+    launch(data)
+
+if __name__ == '__main__':
+    main()

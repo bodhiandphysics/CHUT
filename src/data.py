@@ -20,7 +20,6 @@ class ArrivalData:
 
 
 def schedule_from_json(json_string):
-
 	sched_list = json.loads(json_string)
 	returndat = []
 

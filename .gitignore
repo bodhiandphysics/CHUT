@@ -4,5 +4,7 @@ __pycache__/
 .venv/bin/activate.ps1
 socket/target/debug/deps/libfutures_channel-39c1eb38a8b5a10a.rmeta
 Cargo.lock
+debug/
 target/
-socket/target
+socket/target/
+.pem
