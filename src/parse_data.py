@@ -1,44 +1,56 @@
-import zipfile
-
-
-
-# def unzip_gtfs():
-#     with zipfile.ZipFile("../data/CT_GTFS.zip", 'r') as zip_ref:
-#         zip_ref.extractall("../data/gtfs")
-
-# unzip_gtfs()
-
-import datetime as dt
-from collections import OrderedDict
-import sys, os
-import dateutil.relativedelta as rd
-import json
 from pathlib import Path
-from typing import List
-
-import utm
-import pandas as pd
-import numpy as np
-import geopandas as gpd
-import shapely.geometry as sg
-import shapely.ops as so
-
-DIR = Path('..')
-sys.path.append(str(DIR))
-
 import gtfs_kit as gk
+import json
+import datetime
+import sys
+import os
 
-DATA_DIR = DIR/'data/'
 
-path = DATA_DIR/'CT_GTFS.zip'
-feed = gk.read_feed(path, dist_units='km')
-feed.describe()
-feed.validate()
-# with pd.option_context('display.max_rows', None, 'display.max_columns', None):  # more options can be specified also
-# print(feed.trips.to_string())
+def get_todays_sched():
+    dirname = os.path.dirname(__file__)
+    filename = os.path.join(dirname, '../data/CT_GTFS.zip')
+    feed = gk.read_feed(filename, dist_units='km')
+    feed.describe()
+    feed.validate()
 
-dates = ["20220219"]
-df = gk.build_stop_timetable(feed, "6816", dates)
-json = df.apply(lambda x: x.to_json(), axis=0)
+    # read out all stop names / keep ctrain stops
+    stops_df = gk.stops.get_stops(feed)
+    stops = []
+    for index, row in stops_df.iterrows():
+        name = row["stop_name"]
+        code = row["stop_code"]
+        if "CTrain" in name:
+            stop = (name, code)
+            stops.append(stop)
+    # print(stops)
 
-print(json.to_string())
+    # get all todays ctrain schedules
+    year = datetime.datetime.now().year
+    month = '{0:02d}'.format(datetime.datetime.now().month)
+    day = '{0:02d}'.format(datetime.datetime.now().day)
+    dates = [str(year) + month + str(day)]
+    for stop in stops: 
+        times_list = []
+        df = gk.build_stop_timetable(feed, stop[1], dates)
+        for index, row in df.iterrows():
+            departure = {}
+            time = row["departure_time"].split(":")
+            departure["year"] = year
+            departure["month"] = month
+            departure["day"] = day
+            departure["hour"] = time[0]
+            departure["minute"] = time[1]
+            departure["direction"] = stop[0].split(" ")[0]
+            departure["line"] = "red"
+            departure["station"] = stop[0]
+
+            times_list.append(departure)
+
+        filename = stop[0].replace(" ", "_").replace("/", "").lower()
+        text_file = open("../data/sched/"+ filename + ".json", "w")
+        text_file.write(json.dumps(times_list))
+        text_file.close()
+
+
+if __name__ == "__main__":
+  get_todays_sched()
