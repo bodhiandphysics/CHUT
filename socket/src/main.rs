@@ -11,17 +11,28 @@ async fn main() -> Result<(), futures::io::Error> {
     let mut buf = [0; 1024];
     let listener = TcpListener::bind(&ADDR).await?;
     loop {
-        let (stream, _) = listener.accept().await?;
+        let (stream, _) = listener.accept().await.unwrap();
         stream.readable().await?;
-        let (bytes, string) = process(&stream, &mut buf).await?;
+        let result = process(&stream, &mut buf).await;
+        dbg!(&result);
+        let (bytes, string);
+        if let Ok((b, s)) = result {
+            bytes = b;
+            string = s;
+        } else {
+            println!("Something went wrong here!");
+            continue;
+        }
         stream.writable().await?;
-        stream.try_write(
-            &buff_from_usize(bytes)
-                .iter()
-                .chain(string.as_bytes_with_nul())
-                .map(|b| *b)
-                .collect::<Vec<_>>()[..],
-        )?;
+        stream
+            .try_write(
+                &buff_from_usize(bytes)
+                    .iter()
+                    .chain(string.as_bytes_with_nul())
+                    .map(|b| *b)
+                    .collect::<Vec<_>>()[..],
+            )
+            .unwrap();
         buf = [0; 1024];
     }
 }
@@ -30,14 +41,41 @@ async fn process(
     stream: &TcpStream,
     buf: &mut [u8; 1024],
 ) -> Result<(usize, CString), std::io::Error> {
-    stream.try_read(buf)?;
-    let name = unsafe { std::str::from_utf8_unchecked(buf) };
-    let file = File::open(format!("{}/{}.json", DIR, name))?;
-    let mut reader = BufReader::new(file);
-    let mut string_buff = Vec::new();
-    let bytes = reader.read_to_end(&mut string_buff)?;
-    let cstring = CString::new(string_buff).unwrap();
-    Ok((bytes, cstring))
+    loop {
+        println!("HI");
+        match stream.try_read(buf) {
+            Ok(n) => {
+                println!("HELLO");
+                let name = unsafe { std::str::from_utf8_unchecked(&buf[..n]) };
+                dbg!(&name);
+                dbg!(format!("{}/{}.json", DIR, name));
+                let file = File::open(format!("{}/{}.json", DIR, name))?;
+                println!("HELLO");
+                let mut reader = BufReader::new(file);
+                let mut string_buff = Vec::new();
+                match reader.read_to_end(&mut string_buff) {
+                    Ok(bytes) => match CString::new(string_buff) {
+                        Ok(cstring) => return Ok((bytes, cstring)),
+                        Err(e) => {
+                            dbg!(buf);
+                            println!("GAH");
+                            return Err(e.into());
+                        }
+                    },
+                    Err(e) => {
+                        dbg!(string_buff);
+                        return Err(e.into());
+                    }
+                }
+            }
+            Err(ref e) if e.kind() == std::io::ErrorKind::WouldBlock => continue,
+            Err(e) => {
+                dbg!(&buf[..32]);
+                println!("GAH");
+                return Err(e.into());
+            }
+        }
+    }
 }
 
 fn buff_from_usize(bytes: usize) -> [u8; 16] {

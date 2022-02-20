@@ -1,7 +1,7 @@
 import json
 import socket
 
-SERVER_ADDRESS = 127.0.0.1:8080
+SERVER_ADDRESS,PORT = "127.0.0.1",8080
 class ArrivalData:
 
 	def __init__(self, item_dict):
@@ -20,6 +20,7 @@ class ArrivalData:
 
 def schedule_from_json(json_string):
 
+	print(json_string[0:200])
 	sched_list = json.loads(json_string)
 	returndat = []
 
@@ -40,15 +41,21 @@ def get_next_arrival_times(station, current_time, number_of_arrivals):
 
 	returnlist = []
 
-	connection = socket.create_connection(SERVER_ADDRESS)
+	connection = socket.create_connection((SERVER_ADDRESS,PORT))
 	request_str = str.encode(station)
 	connection.send(request_str)
-	reply_size = int(repr(connection.recv(16)))
+	dbg = connection.recv(16)
+	print(dbg)
+	rep = repr(dbg)
+	print(rep)
+	print(int(dbg))
+	reply_size = int(dbg)
+	print(reply_size)
 	num_rcved = 0
 	while num_rcved < reply_size:
 		json_datab = connection.recv(reply_size)
-		num_rcved += len(json_data)
-		if not json_data:
+		num_rcved += len(json_datab)
+		if not json_datab:
 			break
 	json_data = json_datab.decode("ascii")
 	connection.close()
