@@ -7,6 +7,7 @@ class ArrivalData:
 	def __init__(self, item_dict):
 
 		self.station = item_dict["station"]
+		self.direction = item_dict["direction"]
 		self.line = item_dict["line"]
 		self.hour = int(item_dict["hour"])
 		self.minute = int(item_dict["minute"])
@@ -43,7 +44,11 @@ def get_next_arrival_times(station, current_time, number_of_arrivals):
 	connection = socket.create_connection(SERVER_ADDRESS)
 	request_str = str.encode(station)
 	connection.send(request_str)
-	reply_size = int(repr(connection.recv(16)))
+	num_rcved = 0
+	while num_rcved < 16:
+		size_rcved = connection.recv(16)
+		num_rcved += len(size_rcved)
+	reply_size = int(size_rcved)
 	num_rcved = 0
 	while num_rcved < reply_size:
 		json_datab = connection.recv(reply_size)
