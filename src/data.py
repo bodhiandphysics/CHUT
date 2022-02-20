@@ -20,18 +20,13 @@ class ArrivalData:
 
 
 
-def schedule_from_json(json_string):
+def schedule_from_json(returndat, json_string):
 
-	sched_list = json.loads(json_string)
-	returndat = []
+	sched_item = json.loads(json_string)
 
 	try: 
 
-		for item_dict in sched_list:
-
-			returndat.append(ArrivalData(item_dict))
-
-		return returndat
+		return ArrivalData(sched_item)
 	
 	except (Exception) as error:
 		
@@ -47,26 +42,29 @@ def get_next_arrival_times(station, current_time, number_of_arrivals):
 	connection.send(request_str)
 	num_rcved = 0
 	while num_rcved < 16:
-		size_rcved = connection.recv(16 - num_rcved)
+		num_records_rcved = connection.recv(16 - num_rcved)
 		num_rcved += len(size_rcved)
-	reply_size = int(size_rcved)
-	num_rcved = 0
-	while num_rcved < reply_size:
-		json_datab = connection.recv(reply_size - num_rcved)
-		num_rcved += len(json_data)
-		if not json_data:
-			break
-	json_data = json_datab.decode("ascii")
+	num_records = int(rum_records_recved)
+	current_record = 0
+	while current_record < num_records:
 
-	connection.close()
+		num_rcved = 0
+		while num_rcved < 16:
+			size_rcved = connection.recv(16 - num_rcved)
+			num_rcved += len(size_rcved)
+		reply_size = int(size_rcved)
+		num_rcved = 0
+		while num_rcved < reply_size:
+			json_datab = connection.recv(reply_size - num_rcved)
+			num_rcved += len(json_data)
+			if not json_data:
+				break
+		json_data = json_datab.decode("ascii")
+		item = schedule_from_json(json_data)
+		if item.time > current_time and len(returnlist) < number_of_arrivals:
+			 returnlist.append(item)
 
-
-	data = schedule_from_json(json_data)
-
-	for item in data:
-
-            if item.time > current_time and len(returnlist) < number_of_arrivals:
-                returnlist.append(item)
+	connection.close()              
 
 	return returnlist
 
