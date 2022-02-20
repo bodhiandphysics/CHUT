@@ -1,14 +1,38 @@
 from data import ArrivalData
+from datetime import datetime
+import os
+import time
+
+LENGTH = 50
 
 def display(data):
 
-    print("Station" + (" " * 10) + "Line" + (" "*13) + "Time")
+    os.system('cmd /c "clear"')
+
+    print("Station" + (" " * (LENGTH - 7)) + "Line" + (" "*(LENGTH - 4)) + "Time")
+
+    now = datetime.now()
 
     for i in data:
-        print(i.station + (" " * (17-len(i.station))) + i.line + (" " * (17-len(i.line))) + str(i.time))
 
 
-a = ArrivalData({"station":"bob","line":"greg","hour":20,"minute":30,"second":20})
-b = ArrivalData({"station":"bob2","line":"greg","hour":20,"minute":30,"second":20})
+        timeh = (i.time // 60) - now.hour
+        timem = (i.minute % 60) - now.minute
+        if (timem < 0):
+            timeh -= 1
+            timem = 60 + timem
 
-display([a,b])
+        timestr = str(timeh).zfill(2) + ":" + str(timem).zfill(2)
+
+
+        print(i.station + (" " * (LENGTH-len(i.station))) + i.line + (" " * (LENGTH-len(i.line))) + timestr,flush=True)
+
+
+a = ArrivalData({"station":"Univeristy Station","line":"69th Street","hour":20,"minute":30})
+b = ArrivalData({"station":"University Station","line":"Tuscany","hour":20,"minute":55,"second":20})
+
+
+while (True):
+    display([a,b])
+    
+    time.sleep(30)
