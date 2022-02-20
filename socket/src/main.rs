@@ -6,8 +6,8 @@ use tokio::{
     task,
 };
 
-const ADDR: &'static str = "127.0.0.1:8080";
-// const ADDR: &'static str = "20.127.111.209:8080";
+// const ADDR: &'static str = "127.0.0.1:8080";
+const ADDR: &'static str = "20.127.111.209:8080";
 const DIR: &'static str = "../../data/sched";
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -65,8 +65,9 @@ async fn send(times: Vec<Times>, stream: TcpStream) -> Result<(), futures::io::E
 async fn process(stream: &TcpStream, buf: &mut [u8; 1024]) -> Result<Station, std::io::Error> {
     let n = stream.try_read(buf)?;
     let name = unsafe { std::str::from_utf8_unchecked(&buf[..n]) };
-    let file = File::open(format!("{}/{}.json", DIR, name))?;
-    Ok(serde_json::from_reader(BufReader::new(file))?)
+    Ok(serde_json::from_reader(BufReader::new(File::open(
+        format!("{DIR}/{name}.json"),
+    )?))?)
 }
 
 fn buff_from_usize(bytes: usize) -> [u8; 16] {

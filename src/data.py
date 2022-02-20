@@ -1,8 +1,8 @@
 import json
 import socket
 
-SERVER_ADDRESS,PORT = "127.0.0.1",8080
-# SERVER_ADDRESS,PORT = "20.127.111.209",8080
+# SERVER_ADDRESS,PORT = "127.0.0.1",8080
+SERVER_ADDRESS,PORT = "20.127.111.209",8080
 class ArrivalData:
 
 	def __init__(self, item_dict):
@@ -19,14 +19,8 @@ class ArrivalData:
 		return f"the {self.line} line train will arrive at {self.station} station at {str(self.hour)}:{str(self.minute)}"
 
 
-<<<<<<< HEAD
-def schedule_from_json(returndat, json_string):
-
-=======
 
 def schedule_from_json(json_string):
-	print(repr(json_string))
->>>>>>> e3cbdfb79fc014658c2478818deecbdeebbbc2f5
 	sched_item = json.loads(json_string)
 	try: 
 
@@ -47,7 +41,6 @@ def get_next_arrival_times(station, current_time, number_of_arrivals):
 	num_rcved = 0
 	while num_rcved < 16:
 		num_records_rcved = connection.recv(16 - num_rcved)
-		print(num_records_rcved)
 		num_rcved += len(num_records_rcved)
 	num_records = int(num_records_rcved)
 	current_record = 0
@@ -56,7 +49,6 @@ def get_next_arrival_times(station, current_time, number_of_arrivals):
 		num_rcved = 0
 		while num_rcved < 16:
 			size_rcved = connection.recv(16 - num_rcved)
-			print(size_rcved)
 			num_rcved += len(size_rcved)
 		reply_size = int(size_rcved)
 		num_rcved = 0
