@@ -73,11 +73,14 @@ def main():
     w = launch()
     
     while True:
-        data = [
-            obj
-            for name in names
-            for obj in get_next_arrival_times(name,datetime.now(), 3)
-        ]
+        try:
+            data = [
+                obj
+                for name in names
+                    for obj in get_next_arrival_times(name,datetime.now(), 3)
+                    ]
+        except:
+            continue
 
         signal.signal(signal.SIGINT, signal_handler)
 
