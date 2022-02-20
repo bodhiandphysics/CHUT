@@ -19,7 +19,7 @@ def display(w,data):
     w.attron(curses.A_BOLD | curses.A_UNDERLINE)
     w.addstr(0,0,"Station")
     w.addstr(0,x//2-(LENGTH//2),"Line")
-    w.addstr(0,x-LENGTH,"Time(" +str((60-now.second)//10*10) + ")")
+    w.addstr(0,x-LENGTH,"Time(" +str((60-now.second)//10*10 + 10) + ")")
     w.attroff(curses.A_BOLD | curses.A_UNDERLINE)
 
     for i,obj in enumerate(data):
