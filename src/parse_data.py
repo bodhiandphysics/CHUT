@@ -31,28 +31,28 @@ def get_todays_sched():
     dates = [str(year) + month + str(day)]
     for stop in stops: 
         times_list = []
-        if "university" in stop[0]:
+        if "University" in stop[0]:
             print(stop[0])
-        df = gk.build_stop_timetable(feed, stop[1], dates)
-       
-        for index, row in df.iterrows():
-            departure = {}
-            time = row["departure_time"].split(":")
-            departure["year"] = year
-            departure["month"] = month
-            departure["day"] = day
-            departure["hour"] = time[0]
-            departure["minute"] = time[1]
-            departure["direction"] = stop[0].split(" ")[0]
-            departure["line"] = "red"
-            departure["station"] = stop[0]
+            df = gk.build_stop_timetable(feed, stop[1], dates)
+        
+            for index, row in df.iterrows():
+                departure = {}
+                time = row["departure_time"].split(":")
+                departure["year"] = year
+                departure["month"] = month
+                departure["day"] = day
+                departure["hour"] = time[0]
+                departure["minute"] = time[1]
+                departure["direction"] = stop[0].split(" ")[0]
+                departure["line"] = "red"
+                departure["station"] = stop[0]
 
-            times_list.append(departure)
+                times_list.append(departure)
 
-        filename = stop[0].replace(" ", "_").replace("/", "").lower()
-        text_file = open("../data/sched/"+ filename + ".json", "w")
-        text_file.write(json.dumps(times_list))
-        text_file.close()
+            filename = stop[0].replace(" ", "_").replace("/", "").lower()
+            text_file = open("../data/sched/"+ filename + ".json", "w")
+            text_file.write(json.dumps(times_list))
+            text_file.close()
 
 
 if __name__ == "__main__":

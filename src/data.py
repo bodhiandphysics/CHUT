@@ -64,7 +64,7 @@ def get_next_arrival_times(station, current_time, number_of_arrivals):
 				break
 		json_data = json_datab.decode("ascii")
 		item = schedule_from_json(json_data)
-		if len(returnlist) < number_of_arrivals:
+		if self.abstime > current_time and len(returnlist) < number_of_arrivals:
 			 returnlist.append(item)
 		current_record += 1
 
