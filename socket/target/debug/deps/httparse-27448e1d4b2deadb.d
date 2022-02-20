@@ -1,0 +1,12 @@
+/home/aaron/Documents/Repos/CHUT/socket/target/debug/deps/httparse-27448e1d4b2deadb.rmeta: /home/aaron/.cargo/registry/src/github.com-1ecc6299db9ec823/httparse-1.6.0/src/lib.rs /home/aaron/.cargo/registry/src/github.com-1ecc6299db9ec823/httparse-1.6.0/src/iter.rs /home/aaron/.cargo/registry/src/github.com-1ecc6299db9ec823/httparse-1.6.0/src/macros.rs /home/aaron/.cargo/registry/src/github.com-1ecc6299db9ec823/httparse-1.6.0/src/simd/mod.rs /home/aaron/.cargo/registry/src/github.com-1ecc6299db9ec823/httparse-1.6.0/src/simd/sse42.rs /home/aaron/.cargo/registry/src/github.com-1ecc6299db9ec823/httparse-1.6.0/src/simd/avx2.rs
+
+/home/aaron/Documents/Repos/CHUT/socket/target/debug/deps/libhttparse-27448e1d4b2deadb.rlib: /home/aaron/.cargo/registry/src/github.com-1ecc6299db9ec823/httparse-1.6.0/src/lib.rs /home/aaron/.cargo/registry/src/github.com-1ecc6299db9ec823/httparse-1.6.0/src/iter.rs /home/aaron/.cargo/registry/src/github.com-1ecc6299db9ec823/httparse-1.6.0/src/macros.rs /home/aaron/.cargo/registry/src/github.com-1ecc6299db9ec823/httparse-1.6.0/src/simd/mod.rs /home/aaron/.cargo/registry/src/github.com-1ecc6299db9ec823/httparse-1.6.0/src/simd/sse42.rs /home/aaron/.cargo/registry/src/github.com-1ecc6299db9ec823/httparse-1.6.0/src/simd/avx2.rs
+
+/home/aaron/Documents/Repos/CHUT/socket/target/debug/deps/httparse-27448e1d4b2deadb.d: /home/aaron/.cargo/registry/src/github.com-1ecc6299db9ec823/httparse-1.6.0/src/lib.rs /home/aaron/.cargo/registry/src/github.com-1ecc6299db9ec823/httparse-1.6.0/src/iter.rs /home/aaron/.cargo/registry/src/github.com-1ecc6299db9ec823/httparse-1.6.0/src/macros.rs /home/aaron/.cargo/registry/src/github.com-1ecc6299db9ec823/httparse-1.6.0/src/simd/mod.rs /home/aaron/.cargo/registry/src/github.com-1ecc6299db9ec823/httparse-1.6.0/src/simd/sse42.rs /home/aaron/.cargo/registry/src/github.com-1ecc6299db9ec823/httparse-1.6.0/src/simd/avx2.rs
+
+/home/aaron/.cargo/registry/src/github.com-1ecc6299db9ec823/httparse-1.6.0/src/lib.rs:
+/home/aaron/.cargo/registry/src/github.com-1ecc6299db9ec823/httparse-1.6.0/src/iter.rs:
+/home/aaron/.cargo/registry/src/github.com-1ecc6299db9ec823/httparse-1.6.0/src/macros.rs:
+/home/aaron/.cargo/registry/src/github.com-1ecc6299db9ec823/httparse-1.6.0/src/simd/mod.rs:
+/home/aaron/.cargo/registry/src/github.com-1ecc6299db9ec823/httparse-1.6.0/src/simd/sse42.rs:
+/home/aaron/.cargo/registry/src/github.com-1ecc6299db9ec823/httparse-1.6.0/src/simd/avx2.rs:
