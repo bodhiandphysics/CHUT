@@ -31,7 +31,10 @@ def get_todays_sched():
     dates = [str(year) + month + str(day)]
     for stop in stops: 
         times_list = []
+        if "university" in stop[0]:
+            print(stop[0])
         df = gk.build_stop_timetable(feed, stop[1], dates)
+       
         for index, row in df.iterrows():
             departure = {}
             time = row["departure_time"].split(":")
