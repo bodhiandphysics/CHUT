@@ -56,7 +56,6 @@ def get_next_arrival_times(station, current_time, number_of_arrivals):
 		if not json_data:
 			break
 	json_data = json_datab.decode("ascii")
-	connection.close()
 
 	connection.close()
 
