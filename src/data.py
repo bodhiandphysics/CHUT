@@ -37,12 +37,13 @@ def schedule_from_json(json_file):
 		print(error)
 
 #use this function to get the next arrival times.... you'll have to have the data somewhere
-def get_next_arrival_times(line, current_time, number_of_arrivals):
+def get_next_arrival_times(station, current_time, number_of_arrivals):
 
 	returnlist = []
 
 	connection= socket.create_connection(SERVER_ADDRESS)
-	request_str = str.encode(line)
+	request_str = str.encode(station)
+	connection.send(request_str)
 	reply_size = int(repr(connection.recv(1024)))
 	json_data = repr(connection.recv(reply_size))
 	connection.close()
