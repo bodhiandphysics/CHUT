@@ -77,7 +77,7 @@ def main():
             data = [
                 obj
                 for name in names
-                    for obj in get_next_arrival_times(name,datetime.now(), 3)
+                    for obj in get_next_arrival_times(name,datetime.now(), 5)
                     ]
         except:
             continue
