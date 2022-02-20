@@ -36,19 +36,37 @@ python3 -m pip install -r .venv/requirements.txt
 ```
 
 
-Json Format
+# Json Format
 
-[{"station": "university", "line": "red", "hour": "11", "minute": "32", "second": "12"},
-					 {"station": "university", "line": "red", "hour": "12", "minute": "32", "second": "12"}]]
+```json
+[
+  {
+    "station": "university",
+    "line": "red",
+    "hour": "11",
+    "minute": "32",
+    "second": "12"
+  },
+  {
+    "station": "university",
+    "line": "red",
+    "hour": "12",
+    "minute": "32",
+    "second": "12"
+  }
+]
+```
+
 # TODO
 
 - [x] Get Repo set up
-- [x] Start django project and server
-- [x] Setup python virtual environment
-- [ ] Build UI
-- [ ] Parse Data
-- [ ] Display information on site
-- [ ] Integrate into Pi
+- [x] Build UI
+- [x] Parse Data
+- [x] Setup Pi
+- [x] Build Rust Server
+- [x] Display information on site
+- [ ] python for 
+- [ ] Integrate rust server and main UI process
 
 
 
