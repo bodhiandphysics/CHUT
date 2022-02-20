@@ -12,14 +12,15 @@ LENGTH = 10
 
 def display(w,data):
 
+
+    now = datetime.now()
+
     y,x = w.getmaxyx()
     w.attron(curses.A_BOLD | curses.A_UNDERLINE)
     w.addstr(0,0,"Station")
     w.addstr(0,x//2-(LENGTH//2),"Line")
-    w.addstr(0,x-LENGTH,"Time\n")
+    w.addstr(0,x-LENGTH,"Time(" +str((60-now.second)//10*10) + ")")
     w.attroff(curses.A_BOLD | curses.A_UNDERLINE)
-
-    now = datetime.now()
 
     for i,obj in enumerate(data):
         if i+2 > y:
@@ -31,7 +32,7 @@ def display(w,data):
             timeh -= 1
             timem = 60 + timem
 
-        timestr = f"{str(timeh).zfill(2)}:{str(timem).zfill(2)}:{(60 - now.second)//10 * 10}"
+        timestr = f"{str(timeh).zfill(2)}:{str(timem).zfill(2)}"
         
 
         w.addstr(i+1,0," "*x,curses.color_pair((i+1)%2))
