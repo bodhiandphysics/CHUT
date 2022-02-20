@@ -43,7 +43,6 @@ async fn handle(stream: TcpStream) -> Result<(), futures::io::Error> {
     let mut buf = [0; 1024];
     stream.readable().await?;
     let times = process(&stream, &mut buf).await?.times;
-    dbg!(&times);
     stream.writable().await?;
     send(times, stream).await
 }
@@ -51,13 +50,10 @@ async fn handle(stream: TcpStream) -> Result<(), futures::io::Error> {
 async fn send(times: Vec<Times>, stream: TcpStream) -> Result<(), futures::io::Error> {
     let mut writer = BufWriter::new(Vec::new());
     writer.write(&buff_from_usize(times.len())[..])?;
-    dbg!(times.len(), &writer);
     stream.try_write(writer.buffer())?;
     writer.flush()?;
     for time in times {
-        dbg!(&writer);
         let json = serde_json::to_vec(&time)?;
-        dbg!(json.len(), &json);
         writer.write(&buff_from_usize(json.len())[..])?;
         writer.write(&json[..])?;
         stream.try_write(writer.buffer())?;
@@ -70,7 +66,7 @@ async fn process(stream: &TcpStream, buf: &mut [u8; 1024]) -> Result<Station, st
     let n = stream.try_read(buf)?;
     let name = unsafe { std::str::from_utf8_unchecked(&buf[..n]) };
     let file = File::open(format!("{}/{}.json", DIR, name))?;
-    Ok(dbg!(serde_json::from_reader(dbg!(BufReader::new(file))))?)
+    Ok(serde_json::from_reader(BufReader::new(file))?)
 }
 
 fn buff_from_usize(bytes: usize) -> [u8; 16] {
