@@ -1,5 +1,6 @@
 import json
 import socket
+import datetime
 
 # SERVER_ADDRESS,PORT = "127.0.0.1",8080
 SERVER_ADDRESS,PORT = "20.127.111.209",8080
@@ -7,12 +8,15 @@ class ArrivalData:
 
 	def __init__(self, item_dict):
 
+		current_date = datetime.date.today()
+
 		self.station = item_dict["station"]
 		self.direction = item_dict["direction"]
 		self.line = item_dict["line"]
 		self.hour = int(item_dict["hour"])
 		self.minute = int(item_dict["minute"])
 		self.time = 60*self.hour + self.minute
+		self.abstime = datetime.datetime(current_date.year, current_date.month, current_date.day, self.hour, self.minute)
 
 	def __str__(self):
 
@@ -60,7 +64,7 @@ def get_next_arrival_times(station, current_time, number_of_arrivals):
 				break
 		json_data = json_datab.decode("ascii")
 		item = schedule_from_json(json_data)
-		if item.time > current_time and len(returnlist) < number_of_arrivals:
+		if len(returnlist) < number_of_arrivals:
 			 returnlist.append(item)
 		current_record += 1
 
