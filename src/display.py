@@ -31,7 +31,8 @@ def display(w,data):
             timeh -= 1
             timem = 60 + timem
 
-        timestr = f"{str(timeh).zfill(2)}:{str(timem).zfill(2)}"
+        timestr = f"{str(timeh).zfill(2)}:{str(timem).zfill(2)}:{(60 - now.second)//10 * 10}"
+        
 
         w.addstr(i+1,0," "*x,curses.color_pair((i+1)%2))
          
@@ -89,7 +90,7 @@ def main():
         w.clear()
         display(w,data)
         w.refresh()
-        curses.napms(1000)
+        curses.napms(2000)
         if w.getch == 3:
             raise KeyboardInterrupt
 
