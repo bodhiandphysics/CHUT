@@ -1,8 +1,7 @@
 import json
 import socket
 
-SERVER_ADDRESS,PORT = "127.0.0.1",8080
-SERVER_ADDRESS = "127.0.0.1:8080"
+SERVER_ADDRESS,PORT = "20.127.111.209",8080
 class ArrivalData:
 
 	def __init__(self, item_dict):
@@ -23,7 +22,6 @@ class ArrivalData:
 def schedule_from_json(returndat, json_string):
 
 	sched_item = json.loads(json_string)
-
 	try: 
 
 		return ArrivalData(sched_item)

@@ -4,6 +4,12 @@ __pycache__/
 .venv/bin/activate.ps1
 socket/target/debug/deps/libfutures_channel-39c1eb38a8b5a10a.rmeta
 Cargo.lock
+debug/
 target/
+<<<<<<< HEAD
+socket/target/
+.pem
+=======
 socket/target
 chut_key.pem
+>>>>>>> d723731e5f7ba53224ef9d2ad75b9eed1cb3b6e9
