@@ -33,13 +33,20 @@ async fn main() -> Result<(), futures::io::Error> {
     let listener = TcpListener::bind(&ADDR).await?;
     loop {
         let (stream, addy) = listener.accept().await?;
-        if let Err(e) = task::spawn(async move { handle(stream).await.unwrap() }).await {
+        if let Err(e) = task::spawn(async move {
+            match handle(stream).await {
+                Ok(n) => println!("Wrote {n} bytes to {addy}"),
+                Err(e) => println!("Connection failed with client at {addy}.\nReason: {e}"),
+            }
+        })
+        .await
+        {
             println!("Connection failed with client at {addy}.\nReason: {e}");
         }
     }
 }
 
-async fn handle(stream: TcpStream) -> Result<(), futures::io::Error> {
+async fn handle(stream: TcpStream) -> Result<usize, futures::io::Error> {
     let mut buf = [0; 1024];
     stream.readable().await?;
     let times = process(&stream, &mut buf).await?.times;
@@ -47,19 +54,20 @@ async fn handle(stream: TcpStream) -> Result<(), futures::io::Error> {
     send(times, stream).await
 }
 
-async fn send(times: Vec<Times>, stream: TcpStream) -> Result<(), futures::io::Error> {
+async fn send(times: Vec<Times>, stream: TcpStream) -> Result<usize, futures::io::Error> {
     let mut writer = BufWriter::new(Vec::new());
+    let mut bytes = 0;
     writer.write(&buff_from_usize(times.len())[..])?;
-    stream.try_write(writer.buffer())?;
+    bytes += stream.try_write(writer.buffer())?;
     writer.flush()?;
     for time in times {
         let json = serde_json::to_vec(&time)?;
         writer.write(&buff_from_usize(json.len())[..])?;
-        writer.write(&json[..])?;
-        stream.try_write(writer.buffer())?;
+        bytes += writer.write(&json[..])?;
+        bytes += stream.try_write(writer.buffer())?;
         writer.flush()?;
     }
-    Ok(())
+    Ok(bytes)
 }
 
 async fn process(stream: &TcpStream, buf: &mut [u8; 1024]) -> Result<Station, std::io::Error> {
