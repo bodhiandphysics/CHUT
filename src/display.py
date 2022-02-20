@@ -2,14 +2,14 @@ from data import ArrivalData
 from datetime import datetime
 import os
 import time
+import curses
 
-LENGTH = 50
+
+LENGTH = 25
 
 def display(data):
 
-    os.system('cmd /c "clear"')
-
-    print("Station" + (" " * (LENGTH - 7)) + "Line" + (" "*(LENGTH - 4)) + "Time")
+    toReturn = ("Station" + (" " * (LENGTH - 7)) + "Line" + (" "*(LENGTH - 4)) + "Time") + "\n"
 
     now = datetime.now()
 
@@ -25,14 +25,23 @@ def display(data):
         timestr = str(timeh).zfill(2) + ":" + str(timem).zfill(2)
 
 
-        print(i.station + (" " * (LENGTH-len(i.station))) + i.line + (" " * (LENGTH-len(i.line))) + timestr,flush=True)
+        toReturn += (i.station + (" " * (LENGTH-len(i.station))) + i.line + (" " * (LENGTH-len(i.line))) + timestr) + "\n"
+
+    return toReturn
 
 
 a = ArrivalData({"station":"Univeristy Station","line":"69th Street","hour":20,"minute":30})
 b = ArrivalData({"station":"University Station","line":"Tuscany","hour":20,"minute":55,"second":20})
 
 
-while (True):
-    display([a,b])
-    
-    time.sleep(30)
+def fancy(w):
+    while(True):
+        w.clear()
+        w.addstr(display([a,b]))
+        w.refresh()
+        time.sleep(5)
+
+
+curses.wrapper(fancy)
+
+
