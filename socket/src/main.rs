@@ -7,8 +7,8 @@ const ADDR: &'static str = "127.0.0.1:8080";
 async fn main() -> Result<(), futures::io::Error> {
     let listener = TcpListener::bind(&ADDR).await?;
     loop {
-        let (stream, _) = listener.accept().await?;
-        process(stream).await?;
+        let (stream, addy) = listener.accept().await?;
+        let (bytes, string) = process(stream).await?;
     }
 }
 
