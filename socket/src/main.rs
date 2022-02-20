@@ -4,7 +4,7 @@ use std::io::{BufReader, Read};
 use tokio::net::{TcpListener, TcpStream};
 
 const ADDR: &'static str = "127.0.0.1:8080";
-const DIR: &'static str = "stations";
+const DIR: &'static str = "../../data/sched";
 
 #[tokio::main]
 async fn main() -> Result<(), futures::io::Error> {
@@ -32,7 +32,7 @@ async fn process(
 ) -> Result<(usize, CString), std::io::Error> {
     stream.try_read(buf)?;
     let name = unsafe { std::str::from_utf8_unchecked(buf) };
-    let file = File::open(format!("{}/{}", DIR, name))?;
+    let file = File::open(format!("{}/{}.json", DIR, name))?;
     let mut reader = BufReader::new(file);
     let mut string_buff = Vec::new();
     let bytes = reader.read_to_end(&mut string_buff)?;
