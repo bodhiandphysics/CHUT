@@ -40,7 +40,7 @@ def get_next_arrival_times(station, current_time, number_of_arrivals):
 
 	returnlist = []
 
-	connection= socket.create_connection(SERVER_ADDRESS)
+	connection = socket.create_connection(SERVER_ADDRESS)
 	request_str = str.encode(station)
 	connection.send(request_str)
 	reply_size = int(repr(connection.recv(16)))
@@ -50,7 +50,7 @@ def get_next_arrival_times(station, current_time, number_of_arrivals):
 		rum_rcved += json_data.size()
 		if not json_data:
 			break
-	json_data = repr(json_datab)
+	json_data = json_datab.decode("ascii")
 	connection.close()
 
 	connection.close()
