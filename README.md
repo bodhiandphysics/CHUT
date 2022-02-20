@@ -2,10 +2,31 @@
 
 This is the main repo for the CHUT Transit App by CHUT for Calgary Hacks 2022.
 
+![](Untitled_Diagram_drawio.png)
+
 ## Cloning the repo
 
 ```bash
 git clone git@github.com:bodhiandphysics/CHUT.git
+```
+
+# Running the client
+
+Go into `CHUT/src` and run:
+
+```bash
+python3 display.py
+```
+
+![](working.png)
+
+# Running the server
+
+**THIS IS MEANT TO BE DONE ON AN AZURE SERVER**
+
+cd into `socket/src` and then:
+```bash
+cargo run
 ```
 
 # Json Format
@@ -13,33 +34,25 @@ git clone git@github.com:bodhiandphysics/CHUT.git
 ```json
 [
   {
+    "year": 2022,
+    "month": "Feb",
+    "day": "17",
+    "hour": "10",
+    "minute": "30",
+    "direction": "nb"
+    "line": "Red"
     "station": "university",
-    "line": "red",
-    "hour": "11",
-    "minute": "32",
-    "second": "12"
   },
   {
+    "year": 2022,
+    "month": "Feb",
+    "day": "17",
+    "hour": "10",
+    "minute": "30",
+    "direction": "sb"
+    "line": "Red"
     "station": "university",
-    "line": "red",
-    "hour": "12",
-    "minute": "32",
-    "second": "12"
   }
 ]
 ```
-
-# TODO
-
-- [x] Get Repo set up
-- [x] Build UI
-- [x] Parse Data
-- [x] Setup Pi
-- [x] Build Rust Server
-- [x] Display information on site
-- [ ] python for 
-- [ ] Integrate rust server and main UI process
-
-
-
 
