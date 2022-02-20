@@ -2,8 +2,13 @@ data/gtfs
 __pycache__/
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 .venv/lib
 .venv/bin/activate.ps1
+=======
+Cargo.lock
+target/
+>>>>>>> Stashed changes
 =======
 Cargo.lock
 target/
