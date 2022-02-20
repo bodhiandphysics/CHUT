@@ -18,21 +18,12 @@ class ArrivalData:
 		return f"the {self.line} line train will arrive at {self.station} station at {str(self.hour)}:{str(self.minute)}"
 
 
+def schedule_from_json(returndat, json_string):
 
-def schedule_from_json(json_string):
-	print(json_string)
-	print()
-	print(json_string[:400])
-	sched_list = json.loads(json_string)
-	returndat = []
-
+	sched_item = json.loads(json_string)
 	try: 
 
-		for item_dict in sched_list:
-
-			returndat.append(ArrivalData(item_dict))
-
-		return returndat
+		return ArrivalData(sched_item)
 	
 	except (Exception) as error:
 		
@@ -46,24 +37,32 @@ def get_next_arrival_times(station, current_time, number_of_arrivals):
 	connection = socket.create_connection((SERVER_ADDRESS,PORT))
 	request_str = str.encode(station)
 	connection.send(request_str)
-	reply_size = int(connection.recv(16))
 	num_rcved = 0
-	while num_rcved < reply_size:
-		json_datab = connection.recv(reply_size)
-		num_rcved += len(json_datab)
-		if not json_datab:
-			break
-	json_data = json_datab.decode("ascii")
+	while num_rcved < 16:
+		num_records_rcved = connection.recv(16 - num_rcved)
+		num_rcved += len(size_rcved)
+	num_records = int(rum_records_recved)
+	current_record = 0
+	while current_record < num_records:
 
-	connection.close()
+		num_rcved = 0
+		while num_rcved < 16:
+			size_rcved = connection.recv(16 - num_rcved)
+			num_rcved += len(size_rcved)
+		reply_size = int(size_rcved)
+		num_rcved = 0
+		json_datab = bytes("", "ascii")
+		while num_rcved < reply_size:
+			json_datab += connection.recv(reply_size - num_rcved)
+			num_rcved += len(json_data)
+			if not json_data:
+				break
+		json_data = json_datab.decode("ascii")
+		item = schedule_from_json(json_data)
+		if item.time > current_time and len(returnlist) < number_of_arrivals:
+			 returnlist.append(item)
 
-
-	data = schedule_from_json(json_data)
-
-	for item in data:
-
-            if item.time > current_time and len(returnlist) < number_of_arrivals:
-                returnlist.append(item)
+	connection.close()              
 
 	return returnlist
 
