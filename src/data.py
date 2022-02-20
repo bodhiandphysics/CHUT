@@ -43,14 +43,12 @@ def get_next_arrival_times(station, current_time, number_of_arrivals):
 	connection = socket.create_connection((SERVER_ADDRESS,PORT))
 	request_str = str.encode(station)
 	connection.send(request_str)
-<<<<<<< HEAD
 	reply_size = int(connection.recv(16))
 	num_rcved = 0
 	while num_rcved < reply_size:
 		json_datab = connection.recv(reply_size)
 		num_rcved += len(json_datab)
 		if not json_datab:
-=======
 	num_rcved = 0
 	while num_rcved < 16:
 		size_rcved = connection.recv(16 - num_rcved)
@@ -61,7 +59,6 @@ def get_next_arrival_times(station, current_time, number_of_arrivals):
 		json_datab = connection.recv(reply_size - num_rcved)
 		num_rcved += len(json_data)
 		if not json_data:
->>>>>>> d723731e5f7ba53224ef9d2ad75b9eed1cb3b6e9
 			break
 	json_data = json_datab.decode("ascii")
 
