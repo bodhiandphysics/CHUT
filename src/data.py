@@ -10,8 +10,7 @@ class ArrivalData:
 		self.line = item_dict["line"]
 		self.hour = int(item_dict["hour"])
 		self.minute = int(item_dict["minute"])
-		self.second = int(item_dict["second"])
-		self.time = 3600*self.hour + 60*self.minute + self.second
+		self.time = 60*self.hour + self.minute
 
 	def __str__(self):
 
@@ -19,9 +18,9 @@ class ArrivalData:
 
 
 
-def schedule_from_json(json_file):
+def schedule_from_json(json_string):
 
-	sched_list = json.load(json_file)
+	sched_list = json.loads(json_string)
 	returndat = []
 
 	try: 
@@ -44,7 +43,7 @@ def get_next_arrival_times(station, current_time, number_of_arrivals):
 	connection= socket.create_connection(SERVER_ADDRESS)
 	request_str = str.encode(station)
 	connection.send(request_str)
-	reply_size = int(repr(connection.recv(1024)))
+	reply_size = int(repr(connection.recv(17)))
 	json_data = repr(connection.recv(reply_size))
 	connection.close()
 
