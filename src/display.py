@@ -59,7 +59,9 @@ def launch():
 def main():
     names = [
         'nb_university_ctrain_station',
-        'sb_university_ctrain_station'
+        'sb_university_ctrain_station',
+        'nb_brentwood_ctrain_station',
+        'sb_brentwood_ctrain_station'
     ]
     '''
     names = [
