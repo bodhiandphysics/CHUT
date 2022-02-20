@@ -1,12 +1,14 @@
 import json
 import socket
 
-SERVER_ADDRESS = 0
+SERVER_ADDRESS,PORT = "127.0.0.1",8080
+SERVER_ADDRESS = "127.0.0.1:8080"
 class ArrivalData:
 
 	def __init__(self, item_dict):
 
 		self.station = item_dict["station"]
+		self.direction = item_dict["direction"]
 		self.line = item_dict["line"]
 		self.hour = int(item_dict["hour"])
 		self.minute = int(item_dict["minute"])
@@ -40,18 +42,30 @@ def get_next_arrival_times(station, current_time, number_of_arrivals):
 
 	returnlist = []
 
-	connection= socket.create_connection(SERVER_ADDRESS)
+	connection = socket.create_connection((SERVER_ADDRESS,PORT))
 	request_str = str.encode(station)
 	connection.send(request_str)
-	reply_size = int(repr(connection.recv(16)))
+<<<<<<< HEAD
+	reply_size = int(connection.recv(16))
 	num_rcved = 0
 	while num_rcved < reply_size:
 		json_datab = connection.recv(reply_size)
-		rum_rcved += json_data.size()
+		num_rcved += len(json_datab)
+		if not json_datab:
+=======
+	num_rcved = 0
+	while num_rcved < 16:
+		size_rcved = connection.recv(16 - num_rcved)
+		num_rcved += len(size_rcved)
+	reply_size = int(size_rcved)
+	num_rcved = 0
+	while num_rcved < reply_size:
+		json_datab = connection.recv(reply_size - num_rcved)
+		num_rcved += len(json_data)
 		if not json_data:
+>>>>>>> 9899fc7efef4e5db55b01668d6aba4b3d3716649
 			break
-	json_data = repr(json_datab)
-	connection.close()
+	json_data = json_datab.decode("ascii")
 
 	connection.close()
 

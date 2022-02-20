@@ -11,7 +11,7 @@ async fn main() -> Result<(), futures::io::Error> {
     let mut buf = [0; 1024];
     let listener = TcpListener::bind(&ADDR).await?;
     loop {
-        let (stream, _) = listener.accept().await?;
+        let (stream, _) = listener.accept().await.unwrap();
         stream.readable().await?;
         let (bytes, string) = process(&stream, &mut buf).await?;
         stream.writable().await?;
@@ -30,13 +30,13 @@ async fn process(
     stream: &TcpStream,
     buf: &mut [u8; 1024],
 ) -> Result<(usize, CString), std::io::Error> {
-    stream.try_read(buf)?;
-    let name = unsafe { std::str::from_utf8_unchecked(buf) };
+    let n = stream.try_read(buf)?;
+    let name = unsafe { std::str::from_utf8_unchecked(&buf[..n]) };
     let file = File::open(format!("{}/{}.json", DIR, name))?;
     let mut reader = BufReader::new(file);
     let mut string_buff = Vec::new();
     let bytes = reader.read_to_end(&mut string_buff)?;
-    let cstring = CString::new(string_buff).unwrap();
+    let cstring = CString::new(string_buff)?;
     Ok((bytes, cstring))
 }
 
