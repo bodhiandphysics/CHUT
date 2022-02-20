@@ -41,6 +41,15 @@ def display(w,data):
         w.addstr(i+1,x//2-(LENGTH//2),obj.line,curses.color_pair((i+1)%2))
         w.addstr(i+1,x-LENGTH,timestr,curses.color_pair((i+1)%2))
 
+        a = int(now.second/60 *(x-12))
+        #w.attron(curses.color_pair(2))
+        w.addstr(y-4,a,"\\____")
+        w.addstr(y-3,a,"|DD|____T_")
+        w.addstr(y-2,a,"|_ |_____|<")
+        w.addstr(y-1,a,"@-@-@-oo\\")
+        #w.attroff(curses.color_pair(2))
+
+
 def signal_handler(sig, frame):
     curses.endwin()
     sys.exit(0)
@@ -91,7 +100,7 @@ def main():
         w.clear()
         display(w,data)
         w.refresh()
-        curses.napms(2000)
+        curses.napms(1000)
         if w.getch == 3:
             raise KeyboardInterrupt
 
